@@ -1,0 +1,505 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Forca Farmador de aura 💀 - Vetores</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .explicacao-vetor {
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: white;
+            font-family: monospace;
+        }
+
+        .explicacao-vetor code {
+            background: #1e293b;
+            padding: 4px 8px;
+            border-radius: 6px;
+            color: #e2e8f0;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .game-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .game-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .game-content {
+            padding: 20px;
+            flex: 1;
+        }
+
+        .hangman-area {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .hangman-svg {
+            background: #f1f5f9;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .word-display {
+            font-family: 'Courier New', monospace;
+            font-size: 2rem;
+            letter-spacing: 10px;
+            text-align: center;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .hint {
+            background: #fef9e6;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .letters {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin: 20px 0;
+        }
+
+        .letter-btn {
+            width: 45px;
+            height: 45px;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .letter-btn:hover:not(:disabled) {
+            background: #7c3aed;
+            transform: scale(1.05);
+        }
+
+        .letter-btn:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .letter-btn.correct {
+            background: #22c55e;
+        }
+
+        .letter-btn.wrong {
+            background: #ef4444;
+        }
+
+        .status {
+            text-align: center;
+            margin: 15px 0;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .status.win {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status.lose {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .status.playing {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+
+        .reset-btn {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .reset-btn:hover {
+            background: #7c3aed;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            padding: 20px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #22c55e;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            margin-bottom: 10px;
+        }
+
+        .comentario-codigo {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 20px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            overflow-x: auto;
+        }
+
+        .comentario-codigo pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎮 Jogo da Forca Farmador de Aura 💀</h1>
+            <p>JOGO DOS FARMADORES DE AURAS 100% BRUTAL LOW CORTISOL GAMEPLAY 💀</p>
+        </div>
+
+        <!-- Explicação sobre vetores -->
+        <div class="explicacao-vetor">
+            📌 <strong>VETORES NO CÓDIGO</strong> | As palavras e dicas estão armazenadas nos vetores 
+            <code>palavras[]</code> e <code>dicas[]</code>. Edite-os para personalizar os jogos!
+        </div>
+
+        <!-- Grid dos 3 Jogos -->
+        <div class="games-grid">
+            <!-- Jogo 1 -->
+            <div class="game-card" id="game1">
+                <div class="game-header">🎮 Jogo 1</div>
+                <div class="game-content">
+                    <div class="hangman-area">
+                        <svg width="200" height="150" viewBox="0 0 200 150" class="hangman-svg">
+                            <line x1="20" y1="140" x2="180" y2="140" stroke="black" stroke-width="2"/>
+                            <line x1="100" y1="140" x2="100" y2="20" stroke="black" stroke-width="2"/>
+                            <line x1="100" y1="20" x2="150" y2="20" stroke="black" stroke-width="2"/>
+                            <line x1="150" y1="20" x2="150" y2="40" stroke="black" stroke-width="2"/>
+                            <circle id="head1" cx="150" cy="50" r="10" fill="none" stroke="black" stroke-width="2" style="display: none"/>
+                            <line id="body1" x1="150" y1="60" x2="150" y2="100" stroke="black" stroke-width="2" style="display: none"/>
+                            <line id="leftArm1" x1="150" y1="70" x2="135" y2="85" stroke="black" stroke-width="2" style="display: none"/>
+                            <line id="rightArm1" x1="150" y1="70" x2="165" y2="85" stroke="black" stroke-width="2" style="display: none"/>
+                            <line id="leftLeg1" x1="150" y1="100" x2="135" y2="120" stroke="black" stroke-width="2" style="display: none"/>
+                            <line id="rightLeg1" x1="150" y1="100" x2="165" y2="120" stroke="black" stroke-width="2" style="display: none"/>
+                        </svg>
+                    </div>
+                    <div class="word-display" id="wordDisplay1">______</div>
+                    <div class="hint" id="hintDisplay1">💡 Carregando...</div>
+                    <div class="status playing" id="status1">🎯 Jogo em andamento</div>
+                    <div class="letters" id="letters1"></div>
+                    <button class="reset-btn" onclick="resetGame(1)">🔄 Reiniciar Jogo</button>
+                </div>
+            </div>
+
+            <!-- Jogo 2 -->
+            <div class="game-card" id="game2">
+                <div class="game-header">🎮 Jogo 2</div>
+                <div class="game-content">
+                    <div class="hangman-area">
+                        <svg width="200" height="150" viewBox="0 0 200 150" class="hangman-svg">
+                            <line x1="20" y1="140" x2="180" y2="140" stroke="black" stroke-width="2"/>
+                            <line x1="100" y1="140" x2="100" y2="20" stroke="black" stroke-width="2"/>
+                            <line x1="100" y1="20" x2="150" y2="20" stroke="black" stroke-width="2"/>
+                            <line x1="150" y1="20" x2="150" y2="40" stroke="black" stroke-width="2"/>
+                            <circle id="head2" cx="150" cy="50" r="10" fill="none" stroke="black" stroke-width="2" style="display: none"/>
+                            <line id="body2" x1="150" y1="60" x2="150" y2="100" stroke="black" stroke-width="2" style="display: none"/>
+                            <line id="leftArm2" x1="150" y1="70" x2="135" y2="85" stroke="black" stroke-width="2" style="display: none"/>
+                            <line id="rightArm2" x1="150" y1="70" x2="165" y2="85" stroke="black" stroke-width="2" style="display: none"/>
+                            <line id="leftLeg2" x1="150" y1="100" x2="135" y2="120" stroke="black" stroke-width="2" style="display: none"/>
+                            <line id="rightLeg2" x1="150" y1="100" x2="165" y2="120" stroke="black" stroke-width="2" style="display: none"/>
+                        </svg>
+                    </div>
+                    <div class="word-display" id="wordDisplay2">______</div>
+                    <div class="hint" id="hintDisplay2">💡 Carregando...</div>
+                    <div class="status playing" id="status2">🎯 Jogo em andamento</div>
+                    <div class="letters" id="letters2"></div>
+                    <button class="reset-btn" onclick="resetGame(2)">🔄 Reiniciar Jogo</button>
+                </div>
+            </div>
+
+            <!-- Jogo 3 -->
+            <div class="game-card" id="game3">
+                <div class="game-header">🎮 Jogo 3</div>
+                <div class="game-content">
+                    <div class="hangman-area">
+                        <svg width="200" height="150" viewBox="0 0 200 150" class="hangman-svg">
+                            <line x1="20" y1="140" x2="180" y2="140" stroke="black" stroke-width="2"/>
+                            <line x1="100" y1="140" x2="100" y2="20" stroke="black" stroke-width="2"/>
+                            <line x1="100" y1="20" x2="150" y2="20" stroke="black" stroke-width="2"/>
+                            <line x1="150" y1="20" x2="150" y2="40" stroke="black" stroke-width="2"/>
+                            <circle id="head3" cx="150" cy="50" r="10" fill="none" stroke="black" stroke-width="2" style="display: none"/>
+                            <line id="body3" x1="150" y1="60" x2="150" y2="100" stroke="black" stroke-width="2" style="display: none"/>
+                            <line id="leftArm3" x1="150" y1="70" x2="135" y2="85" stroke="black" stroke-width="2" style="display: none"/>
+                            <line id="rightArm3" x1="150" y1="70" x2="165" y2="85" stroke="black" stroke-width="2" style="display: none"/>
+                            <line id="leftLeg3" x1="150" y1="100" x2="135" y2="120" stroke="black" stroke-width="2" style="display: none"/>
+                            <line id="rightLeg3" x1="150" y1="100" x2="165" y2="120" stroke="black" stroke-width="2" style="display: none"/>
+                        </svg>
+                    </div>
+                    <div class="word-display" id="wordDisplay3">________</div>
+                    <div class="hint" id="hintDisplay3">💡 Carregando...</div>
+                    <div class="status playing" id="status3">🎯 Jogo em andamento</div>
+                    <div class="letters" id="letters3"></div>
+                    <button class="reset-btn" onclick="resetGame(3)">🔄 Reiniciar Jogo</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comentário sobre os vetores no código -->
+        <div class="comentario-codigo">
+            <strong>📌 VETORES NO CÓDIGO JAVASCRIPT:</strong><br>
+            <pre>
+// ==================== PERSONALIZE AQUI OS VETORES ====================
+// Altere as palavras e dicas nos vetores abaixo para personalizar os jogos!
+
+const palavras = [     // VETOR com as 3 palavras
+    "AURA",        // Palavra do Jogo 1
+    "CAPOEIRA",           // Palavra do Jogo 2
+    "ICARO"        // Palavra do Jogo 3
+]
+
+const dicas = [        // VETOR com as 3 dicas
+    "Coisa que deve ser farmada todos os dias 💀",
+    "Estilo de luta proibída 💀",
+    "A pessoa mais adorável e amada do mundo 💗"
+]
+
+// ==================== FIM DA PERSONALIZAÇÃO ====================
+            </pre>
+        </div>
+
+        <footer>
+            <p>📌 Personalize os jogos alterando os vetores <strong>palavras[]</strong> e <strong>dicas[]</strong> no código JavaScript!</p>
+            <p>Os vetores armazenam as 3 palavras e suas respectivas dicas.</p>
+        </footer>
+    </div>
+
+    <script>
+        // ==================== PERSONALIZE AQUI OS VETORES ====================
+        // Altere as palavras e dicas nos vetores abaixo para personalizar os jogos!
+        
+        const palavras = [     // VETOR com as 3 palavras
+            "AURA",        // Palavra do Jogo 1 em caixa alta
+            "CAPOEIRA",           // Palavra do Jogo 2 em caixa alta
+            "ICARO"        // Palavra do Jogo 3 em caixa alta
+        ]
+        
+        const dicas = [        // VETOR com as 3 dicas
+            "COISA QUE DEVE SER FARMADA TODOS OS DIAS 💀",
+            "ESTILO DE LUTA PROIBÍDO 💀",
+            "SIMPLESMENTE A PESSOA MAIS TEMIDA DO MUNDO 💀"
+        ]
+        
+        // ==================== FIM DA PERSONALIZAÇÃO ====================
+        
+        // Estado dos jogos
+        let gameState = {
+            1: { palavra: palavras[0], adivinhada: [], erros: 0, letrasUsadas: [], jogoAtivo: true },
+            2: { palavra: palavras[1], adivinhada: [], erros: 0, letrasUsadas: [], jogoAtivo: true },
+            3: { palavra: palavras[2], adivinhada: [], erros: 0, letrasUsadas: [], jogoAtivo: true }
+        };
+        
+        // Inicializar jogos
+        function initGame(jogo) {
+            let palavra = gameState[jogo].palavra;
+            gameState[jogo].adivinhada = Array(palavra.length).fill('_');
+            gameState[jogo].erros = 0;
+            gameState[jogo].letrasUsadas = [];
+            gameState[jogo].jogoAtivo = true;
+            atualizarDisplay(jogo);
+            criarBotoesLetras(jogo);
+            atualizarForca(jogo);
+        }
+        
+        function atualizarDisplay(jogo) {
+            let display = gameState[jogo].adivinhada.join(' ');
+            document.getElementById(`wordDisplay${jogo}`).innerHTML = display;
+            document.getElementById(`hintDisplay${jogo}`).innerHTML = `💡 Dica: ${dicas[jogo-1]}`;
+            
+            let status = document.getElementById(`status${jogo}`);
+            if (!gameState[jogo].jogoAtivo) {
+                if (gameState[jogo].adivinhada.join('') === gameState[jogo].palavra) {
+                    status.innerHTML = "🎉 PARABÉNS! VOCÊ VENCEU! 🎉";
+                    status.className = "status win";
+                } else if (gameState[jogo].erros >= 6) {
+                    status.innerHTML = `💀 GAME OVER! A palavra era: ${gameState[jogo].palavra} 💀`;
+                    status.className = "status lose";
+                }
+            } else {
+                status.innerHTML = `🎯 Jogo em andamento | Erros: ${gameState[jogo].erros}/6`;
+                status.className = "status playing";
+            }
+        }
+        
+        function criarBotoesLetras(jogo) {
+            let container = document.getElementById(`letters${jogo}`);
+            container.innerHTML = '';
+            let letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+            
+            letras.forEach(letra => {
+                let btn = document.createElement('button');
+                btn.textContent = letra;
+                btn.className = 'letter-btn';
+                if (gameState[jogo].letrasUsadas.includes(letra)) {
+                    btn.disabled = true;
+                    if (gameState[jogo].palavra.includes(letra)) {
+                        btn.classList.add('correct');
+                    } else {
+                        btn.classList.add('wrong');
+                    }
+                }
+                btn.onclick = () => adivinharLetra(jogo, letra);
+                container.appendChild(btn);
+            });
+        }
+        
+        function adivinharLetra(jogo, letra) {
+            if (!gameState[jogo].jogoAtivo) return;
+            if (gameState[jogo].letrasUsadas.includes(letra)) return;
+            
+            gameState[jogo].letrasUsadas.push(letra);
+            
+            if (gameState[jogo].palavra.includes(letra)) {
+                // Letra correta
+                for (let i = 0; i < gameState[jogo].palavra.length; i++) {
+                    if (gameState[jogo].palavra[i] === letra) {
+                        gameState[jogo].adivinhada[i] = letra;
+                    }
+                }
+            } else {
+                // Letra errada
+                gameState[jogo].erros++;
+                atualizarForca(jogo);
+            }
+            
+            atualizarDisplay(jogo);
+            criarBotoesLetras(jogo);
+            
+            // Verificar vitória
+            if (gameState[jogo].adivinhada.join('') === gameState[jogo].palavra) {
+                gameState[jogo].jogoAtivo = false;
+                atualizarDisplay(jogo);
+                desabilitarBotoes(jogo);
+            }
+            
+            // Verificar derrota
+            if (gameState[jogo].erros >= 6) {
+                gameState[jogo].jogoAtivo = false;
+                atualizarDisplay(jogo);
+                desabilitarBotoes(jogo);
+            }
+        }
+        
+        function desabilitarBotoes(jogo) {
+            let container = document.getElementById(`letters${jogo}`);
+            let botoes = container.querySelectorAll('.letter-btn');
+            botoes.forEach(btn => btn.disabled = true);
+        }
+        
+        function atualizarForca(jogo) {
+            let partes = ['head', 'body', 'leftArm', 'rightArm', 'leftLeg', 'rightLeg'];
+            for (let i = 0; i < gameState[jogo].erros; i++) {
+                let elemento = document.getElementById(`${partes[i]}${jogo}`);
+                if (elemento) elemento.style.display = '';
+            }
+        }
+        
+        function resetGame(jogo) {
+            gameState[jogo].palavra = palavras[jogo-1];
+            initGame(jogo);
+            
+            // Resetar forca
+            let partes = ['head', 'body', 'leftArm', 'rightArm', 'leftLeg', 'rightLeg'];
+            partes.forEach(parte => {
+                let elemento = document.getElementById(`${parte}${jogo}`);
+                if (elemento) elemento.style.display = 'none';
+            });
+        }
+        
+        // Inicializar todos os jogos
+        initGame(1);
+        initGame(2);
+        initGame(3);
+    </script>
+</body>
+</html>
